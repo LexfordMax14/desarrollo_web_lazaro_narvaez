@@ -9,6 +9,14 @@
     margin-top: 4px;
 }
 
+.filtro-listado {
+    margin: 12px 0;
+}
+
+.filtro-listado label {
+    margin-right: 8px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
