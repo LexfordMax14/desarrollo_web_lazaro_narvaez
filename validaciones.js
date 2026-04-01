@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.getElementById("form-registro");
+    const STORAGE_KEY = "registrosActividades";
 
     if (!formulario) {
         return;
     }
 
-    //obtener campos del formulario par (nombre, elemeneto)
+    // obtener campos del formulario
     const campos = {
         nombre: document.getElementById("nombre"),
         rol: document.getElementById("rol"),
@@ -13,15 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
         telefono: document.getElementById("telefono"),
         contrasena: document.getElementById("contrasena"),
         actividad_nombre: document.getElementById("actividad_nombre"),
-        descripcion: document.getElementById("descripcion")
+        descripcion: document.getElementById("descripcion"),
+        categoria: document.getElementById("categoria"),
+        hora_inicio: document.getElementById("hora_inicio"),
+        hora_fin: document.getElementById("hora_fin"),
+        archivo: document.getElementById("archivo"),
+        link: document.getElementById("link")
     };
+    const camposDias = document.querySelectorAll('input[name="dias"]');
 
-    //Expreciones regulares para validación
-    const correoRegex = /^[a-z]+@(gmail|hotmail|uchile|ug\.uchile)\.[a-z]{2,3}$/;
+    // expresiones regulares para validacion
+    const correoRegex = /^[A-Za-z0-9._%+-]+@(gmail|hotmail|uchile|ug\.uchile)\.[a-z]{2,3}$/;
     const telefonoRegex = /^9\d{8}$/;
     const contrasenaRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
 
-    //Función para mostrar u ocultar mensajes de error
+    // mostrar u ocultar mensajes de error
     function mostrarError(nombreCampo, mostrar) {
         const error = document.getElementById(`error-${nombreCampo}`);
 
@@ -32,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         error.classList.toggle("visible", mostrar);
     }
 
-    //Validacion de campos
+    // validacion de campos
     function validarNombre() {
         const esValido = campos.nombre.value.trim() !== "";
         mostrarError("nombre", !esValido);
@@ -40,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function validarRol() {
-        const esValido = campos.rol.value.trim() !== "";
+        const esValido = campos.rol.value !== "";
         mostrarError("rol", !esValido);
         return esValido;
     }
@@ -78,7 +85,65 @@ document.addEventListener("DOMContentLoaded", () => {
         return esValido;
     }
 
-    //Asignar validadores a eventos
+    function validarCategoria() {
+        const estaVacio = !campos.categoria.value;
+        mostrarError("categoria", estaVacio);
+        return !estaVacio;
+    }
+
+    function validarDias() {
+        const estaVacio = !Array.from(camposDias).some((campoDia) => campoDia.checked);
+        mostrarError("dias", estaVacio);
+        return !estaVacio;
+    }
+
+    function validarHoraInicio() {
+        const estaVacio = !campos.hora_inicio.value;
+        mostrarError("hora_inicio", estaVacio);
+        return !estaVacio;
+    }
+
+    function validarHoraFin() {
+        const estaVacio = !campos.hora_fin.value;
+        mostrarError("hora_fin", estaVacio);
+        return !estaVacio;
+    }
+
+    function validarArchivo() {
+        const estaVacio = !campos.archivo.files.length;
+        mostrarError("archivo", estaVacio);
+        return !estaVacio;
+    }
+
+    function validarLink() {
+        const estaVacio = !campos.link.value.trim();
+        mostrarError("link", estaVacio);
+        return !estaVacio;
+    }
+
+    // obtener el texto visible de un select
+    function obtenerTextoSeleccionado(select) {
+        return select.options[select.selectedIndex]?.text ?? "";
+    }
+
+    // guardar los datos necesarios en localStorage para mostrarlos en el listado
+    function guardarRegistro() {
+        const registrosGuardados = localStorage.getItem(STORAGE_KEY);
+        const registros = registrosGuardados ? JSON.parse(registrosGuardados) : [];
+
+        const nuevoRegistro = {
+            categoria: obtenerTextoSeleccionado(campos.categoria),
+            nombre: campos.nombre.value.trim(),
+            cargo: obtenerTextoSeleccionado(campos.rol),
+            telefono: campos.telefono.value.trim(),
+            correo: campos.correo.value.trim()
+        };
+
+        registros.push(nuevoRegistro);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(registros)); //convertir a texto
+    }
+
+    // asignar validadores a eventos
     const validadores = {
         nombre: validarNombre,
         rol: validarRol,
@@ -86,22 +151,41 @@ document.addEventListener("DOMContentLoaded", () => {
         telefono: validarTelefono,
         contrasena: validarContrasena,
         actividad_nombre: validarActividadNombre,
-        descripcion: validarDescripcion
+        descripcion: validarDescripcion,
+        categoria: validarCategoria,
+        hora_inicio: validarHoraInicio,
+        hora_fin: validarHoraFin,
+        archivo: validarArchivo,
+        link: validarLink
     };
 
-    //funcion para asignar eventos a cada campo y validar cuando se escribe,cuando se sale del campo o cuando se cambia el valor
+    // Validar cada campo cuando cambia o pierde el foco
     Object.entries(campos).forEach(([nombreCampo, campo]) => {
         campo.addEventListener("blur", validadores[nombreCampo]);
         campo.addEventListener("input", validadores[nombreCampo]);
         campo.addEventListener("change", validadores[nombreCampo]);
     });
 
+    // Validar los dias por separado porque son varios checkboxes
+    camposDias.forEach((campoDia) => {
+        campoDia.addEventListener("change", validarDias);
+    });
+
+    // Validar todo el formulario antes de guardar y redirigir
     formulario.addEventListener("submit", (event) => {
-        const resultados = Object.values(validadores).map((validador) => validador());
+        const resultados = [
+            ...Object.values(validadores).map((validador) => validador()),
+            validarDias()
+        ];
         const formularioValido = resultados.every((resultado) => resultado);
 
         if (!formularioValido) {
             event.preventDefault();
+            return;
         }
+
+        event.preventDefault();
+        guardarRegistro();
+        window.location.href = "listado.html";
     });
 });

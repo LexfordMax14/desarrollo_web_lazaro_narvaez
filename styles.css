@@ -8,3 +8,21 @@
     display: inline-block;
     margin-top: 4px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+th,
+td {
+    border: 1px solid #bdbdbd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: #f2f2f2;
+}
