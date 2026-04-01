@@ -9,14 +9,14 @@
     <h1>Registro</h1>
 
     <!-- Formulario unico con secciones internas -->
-    <form id="form-registro" action="index.html" method="post" enctype="multipart/form-data">
+    <form id="form-registro" action="listado.html" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Datos personales</legend>
 
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required aria-describedby="error-nombre">
             <br>
-            <span class="error" id="error-nombre" aria-live="polite">Ingrese su nombre. Este campo no puede estar vacio.</span>
+            <span class="error" id="error-nombre" aria-live="polite">Ingrese su nombre. Este campo no puede estar vacío.</span>
 
             <br><br>
 
@@ -27,28 +27,28 @@
                 <option value="funcionario">Funcionario</option>
             </select>
             <br>
-            <span class="error" id="error-rol" aria-live="polite">Seleccione un cargo valido.</span>
+            <span class="error" id="error-rol" aria-live="polite">Seleccione un cargo válido.</span>
 
             <br><br>
 
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required aria-describedby="error-correo">
             <br>
-            <span class="error" id="error-correo" aria-live="polite">Ingrese un correo valido con formato nombre@dominio.cl o nombre@dominio.com, por ejemplo usuario@gmail.com o usuario@ug.uchile.cl.</span>
+            <span class="error" id="error-correo" aria-live="polite">Ingrese un correo válido con formato nombre@dominio.cl o nombre@dominio.com, por ejemplo usuario@gmail.com o usuario@ug.uchile.cl.</span>
 
             <br><br>
 
-            <label for="telefono">Numero telefonico:</label>
+            <label for="telefono">Número telefónico:</label>
             <input type="tel" id="telefono" name="telefono" required aria-describedby="error-telefono">
             <br>
-            <span class="error" id="error-telefono" aria-live="polite">Ingrese un numero telefonico con formato 9XXXXXXXX.</span>
+            <span class="error" id="error-telefono" aria-live="polite">Ingrese un número telefónico con formato 9XXXXXXXX.</span>
 
             <br><br>
 
-            <label for="contrasena">Contrase&ntilde;a:</label>
+            <label for="contrasena">Contraseña:</label>
             <input type="password" id="contrasena" name="contrasena" required aria-describedby="error-contrasena">
             <br>
-            <span class="error" id="error-contrasena" aria-live="polite">Ingrese una contrase&ntilde;a de al menos 6 caracteres, con letras y numeros. Los simbolos son opcionales.</span>
+            <span class="error" id="error-contrasena" aria-live="polite">Ingrese una contraseña de al menos 6 caracteres, con letras y numeros. Los simbolos son opcionales.</span>
         </fieldset>
 
         <br>
@@ -59,31 +59,31 @@
             <label for="actividad_nombre">Nombre de la actividad:</label>
             <input type="text" id="actividad_nombre" name="actividad_nombre" required aria-describedby="error-actividad_nombre">
             <br>
-            <span class="error" id="error-actividad_nombre" aria-live="polite">Ingrese el nombre de la actividad. Este campo no puede estar vacio.</span>
+            <span class="error" id="error-actividad_nombre" aria-live="polite">Ingrese el nombre de la actividad. Este campo no puede estar vacío.</span>
 
             <br><br>
 
-            <label for="descripcion">Descripcion:</label>
+            <label for="descripcion">Descripción:</label>
             <br>
             <textarea id="descripcion" name="descripcion" rows="4" cols="40" required aria-describedby="error-descripcion"></textarea>
             <br>
-            <span class="error" id="error-descripcion" aria-live="polite">Ingrese una descripcion. Este campo no puede estar vacio.</span>
+            <span class="error" id="error-descripcion" aria-live="polite">Ingrese una descripcion. Este campo no puede estar vacío.</span>
 
             <br><br>
 
-            <label for="categoria">Categoria:</label>
+            <label for="categoria">Categoría:</label>
             <select id="categoria" name="categoria" required>
-                <option value="">Seleccione una categoria</option>
+                <option value="">Seleccione una categoría</option>
                 <option value="deporte">Deporte</option>
                 <option value="cultura">Cultura</option>
-                <option value="academica">Academica</option>
-                <option value="recreacion">Recreacion</option>
+                <option value="academica">Académica</option>
+                <option value="recreacion">Recreación</option>
                 <option value="otro">Otro</option>
             </select>
 
             <br><br>
 
-            <span>Dias:</span>
+            <span>Días:</span>
             <br>
             <input type="checkbox" id="lunes" name="dias" value="lunes">
             <label for="lunes">Lunes</label>
@@ -92,7 +92,7 @@
             <label for="martes">Martes</label>
 
             <input type="checkbox" id="miercoles" name="dias" value="miercoles">
-            <label for="miercoles">Miercoles</label>
+            <label for="miercoles">Miércoles</label>
 
             <input type="checkbox" id="jueves" name="dias" value="jueves">
             <label for="jueves">Jueves</label>
@@ -101,7 +101,7 @@
             <label for="viernes">Viernes</label>
 
             <input type="checkbox" id="sabado" name="dias" value="sabado">
-            <label for="sabado">Sabado</label>
+            <label for="sabado">Sábado</label>
 
             <input type="checkbox" id="domingo" name="dias" value="domingo">
             <label for="domingo">Domingo</label>
