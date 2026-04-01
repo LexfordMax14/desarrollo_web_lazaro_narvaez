@@ -3,35 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Registro</h1>
 
-    <!-- formulario de datos de identificación y contacto -->
-    <form action="index.html">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
+    <!-- Formulario unico con secciones internas -->
+    <form id="form-registro" action="index.html" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Datos personales</legend>
 
-        <br><br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required aria-describedby="error-nombre">
+            <br>
+            <span class="error" id="error-nombre" aria-live="polite">Ingrese su nombre. Este campo no puede estar vacio.</span>
 
-        <label for="rol">Cargo:</label>
-        <select id="rol" name="rol">
-            <option value="estudiante">Estudiante</option>
-            <option value="docente">Docente</option>
-            <option value="funcionario">Funcionario</option>
-        </select>
+            <br><br>
 
-        <br><br>
+            <label for="rol">Cargo:</label>
+            <select id="rol" name="rol" required aria-describedby="error-rol">
+                <option value="estudiante">Estudiante</option>
+                <option value="docente">Docente</option>
+                <option value="funcionario">Funcionario</option>
+            </select>
+            <br>
+            <span class="error" id="error-rol" aria-live="polite">Seleccione un cargo valido.</span>
 
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo">
+            <br><br>
 
-        <br><br>
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required aria-describedby="error-correo">
+            <br>
+            <span class="error" id="error-correo" aria-live="polite">Ingrese un correo valido con formato nombre@dominio.cl o nombre@dominio.com, por ejemplo usuario@gmail.com o usuario@ug.uchile.cl.</span>
 
-        <label for="contraseña">Contraseña:</label>
-        <input type="password" id="contraseña" name="contraseña">
+            <br><br>
 
-        <br><br>
+            <label for="telefono">Numero telefonico:</label>
+            <input type="tel" id="telefono" name="telefono" required aria-describedby="error-telefono">
+            <br>
+            <span class="error" id="error-telefono" aria-live="polite">Ingrese un numero telefonico con formato 9XXXXXXXX.</span>
+
+            <br><br>
+
+            <label for="contrasena">Contrase&ntilde;a:</label>
+            <input type="password" id="contrasena" name="contrasena" required aria-describedby="error-contrasena">
+            <br>
+            <span class="error" id="error-contrasena" aria-live="polite">Ingrese una contrase&ntilde;a de al menos 6 caracteres, con letras y numeros. Los simbolos son opcionales.</span>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+            <legend>Actividad</legend>
+
+            <label for="actividad_nombre">Nombre de la actividad:</label>
+            <input type="text" id="actividad_nombre" name="actividad_nombre" required aria-describedby="error-actividad_nombre">
+            <br>
+            <span class="error" id="error-actividad_nombre" aria-live="polite">Ingrese el nombre de la actividad. Este campo no puede estar vacio.</span>
+
+            <br><br>
+
+            <label for="descripcion">Descripcion:</label>
+            <br>
+            <textarea id="descripcion" name="descripcion" rows="4" cols="40" required aria-describedby="error-descripcion"></textarea>
+            <br>
+            <span class="error" id="error-descripcion" aria-live="polite">Ingrese una descripcion. Este campo no puede estar vacio.</span>
+
+            <br><br>
+
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Seleccione una categoria</option>
+                <option value="deporte">Deporte</option>
+                <option value="cultura">Cultura</option>
+                <option value="academica">Academica</option>
+                <option value="recreacion">Recreacion</option>
+                <option value="otro">Otro</option>
+            </select>
+
+            <br><br>
+
+            <span>Dias:</span>
+            <br>
+            <input type="checkbox" id="lunes" name="dias" value="lunes">
+            <label for="lunes">Lunes</label>
+
+            <input type="checkbox" id="martes" name="dias" value="martes">
+            <label for="martes">Martes</label>
+
+            <input type="checkbox" id="miercoles" name="dias" value="miercoles">
+            <label for="miercoles">Miercoles</label>
+
+            <input type="checkbox" id="jueves" name="dias" value="jueves">
+            <label for="jueves">Jueves</label>
+
+            <input type="checkbox" id="viernes" name="dias" value="viernes">
+            <label for="viernes">Viernes</label>
+
+            <input type="checkbox" id="sabado" name="dias" value="sabado">
+            <label for="sabado">Sabado</label>
+
+            <input type="checkbox" id="domingo" name="dias" value="domingo">
+            <label for="domingo">Domingo</label>
+
+            <br><br>
+
+            <label for="hora_inicio">Hora de inicio:</label>
+            <input type="time" id="hora_inicio" name="hora_inicio" required>
+
+            <br><br>
+
+            <label for="hora_fin">Hora de fin:</label>
+            <input type="time" id="hora_fin" name="hora_fin" required>
+
+            <br><br>
+
+            <label for="archivo">Foto o video:</label>
+            <input type="file" id="archivo" name="archivo" accept="image/*,video/*">
+
+            <br><br>
+
+            <label for="link">Link:</label>
+            <input type="url" id="link" name="link" placeholder="https://example.com">
+        </fieldset>
+
+        <br>
 
         <button type="submit">Registrarse</button>
     </form>
@@ -40,5 +136,6 @@
 
     <!-- vuelta al index -->
     <a href="index.html">Volver a Inicio</a>
+    <script src="validaciones.js"></script>
 </body>
 </html>
