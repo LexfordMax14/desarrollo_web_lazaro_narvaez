@@ -10,14 +10,25 @@
 
     <section>
         <h2>Registros de actividades</h2>
-        <div class="filtro-listado">
-            <label for="filtro-cargo">Filtrar por cargo:</label>
-            <select id="filtro-cargo">
-                <option value="todos">Todos</option>
-                <option value="Estudiante">Estudiante</option>
-                <option value="Docente">Docente</option>
-                <option value="Funcionario">Funcionario</option>
-            </select>
+        <div class="controles-listado">
+            <div class="filtro-listado">
+                <label for="filtro-cargo">Filtrar por cargo:</label>
+                <select id="filtro-cargo">
+                    <option value="todos">Todos</option>
+                    <option value="Estudiante">Estudiante</option>
+                    <option value="Docente">Docente</option>
+                    <option value="Funcionario">Funcionario</option>
+                </select>
+            </div>
+            <div class="filtro-listado">
+                <label for="orden-listado">Ordenar por:</label>
+                <select id="orden-listado">
+                    <option value="nombre-asc">Nombre (A-Z)</option>
+                    <option value="nombre-desc">Nombre (Z-A)</option>
+                    <option value="categoria-asc">Categoría (A-Z)</option>
+                    <option value="categoria-desc">Categoría (Z-A)</option>
+                </select>
+            </div>
         </div>
         <div id="contenedor-listado"></div>
     </section>

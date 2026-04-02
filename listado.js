@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const STORAGE_KEY = "registrosActividades"; //llave de localStorage
     const contenedor = document.getElementById("contenedor-listado"); //donde insertar la tabla o mensaje de no registros
     const filtroCargo = document.getElementById("filtro-cargo");
+    const ordenListado = document.getElementById("orden-listado");
 
-    if (!contenedor || !filtroCargo) {
+    if (!contenedor || !filtroCargo || !ordenListado) {
         return;
     }
 
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (registrosFiltrados.length === 0) {
             const mensajeSinResultados = document.createElement("p");
-            mensajeSinResultados.textContent = "No hay registros para el cargo seleccionado.";
+            mensajeSinResultados.textContent = "No hay registros para el filtro seleccionado.";
             contenedor.appendChild(mensajeSinResultados);
             return;
         }
@@ -74,15 +75,26 @@ document.addEventListener("DOMContentLoaded", () => {
         contenedor.appendChild(tabla);
     }
 
-    //asignar evento al select para filtrar por cargo y crear html dinamicamente
-    filtroCargo.addEventListener("change", () => {
+    //funcion para obtener registros segun el filtro y orden
+    function obtenerRegistrosVisibles() {
         const cargoSeleccionado = filtroCargo.value;
-        const registrosFiltrados = cargoSeleccionado === "todos"
-            ? registros
-            : registros.filter((registro) => registro.cargo === cargoSeleccionado);
+        const [campoOrden, direccionOrden] = ordenListado.value.split("-");
+        const registrosFiltrados = cargoSeleccionado === "todos" ? [...registros] : registros.filter((registro) => registro.cargo === cargoSeleccionado);
+        registrosFiltrados.sort((registroA, registroB) => {
+            const comparacion = registroA[campoOrden].localeCompare(registroB[campoOrden],"es",{ sensitivity: "base" });
+            return direccionOrden === "desc" ? -comparacion : comparacion;
+        });
 
-        renderizarTabla(registrosFiltrados);
-    });
+        return registrosFiltrados;
+    }
 
-    renderizarTabla(registros);
+    function actualizarListado() {
+        renderizarTabla(obtenerRegistrosVisibles());
+    }
+
+    //asignar eventos para filtrar y ordenar el listado dinamicamente
+    filtroCargo.addEventListener("change", actualizarListado);
+    ordenListado.addEventListener("change", actualizarListado);
+
+    actualizarListado();
 });
