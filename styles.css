@@ -1,19 +1,87 @@
+body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    color: #222222;
+    background-color: #f7f7f7;
+}
+
+h1,
+h2,
+legend {
+    color: #1f3c88;
+}
+
+a {
+    color: #1f3c88;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form,
+section {
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+fieldset {
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+label,
+span {
+    font-weight: 600;
+}
+
+input,
+select,
+textarea,
+button {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    font: inherit;
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+button {
+    background-color: #1f3c88;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #17306d;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #d9d9d9;
+    background-color: #ffffff;
+}
+
 .controles-listado {
     display: flex;
     flex-wrap: wrap;
     gap: 12px 20px;
     margin: 12px 0;
-}
-
-.error {
-    display: none;
-    color: #c62828;
-    font-size: 0.9rem;
-}
-
-.error.visible {
-    display: inline-block;
-    margin-top: 4px;
 }
 
 .filtro-listado {
@@ -26,10 +94,23 @@
     font-weight: 600;
 }
 
+.error {
+    display: none;
+    color: #c62828;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.error.visible {
+    display: inline-block;
+    margin-top: 4px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 16px 0;
+    background-color: #ffffff;
 }
 
 th,
@@ -41,7 +122,7 @@ td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #eaf0ff;
 }
 
 .paginacion-listado {
