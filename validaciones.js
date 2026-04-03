@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const camposDias = document.querySelectorAll('input[name="dias"]');
 
-    // expresiones regulares para validacion
+    // expresiones regulares para validación
     const correoRegex = /^[A-Za-z0-9._%+-]+@(gmail|hotmail|uchile|ug\.uchile)\.[a-z]{2,3}$/;
     const telefonoRegex = /^9\d{8}$/;
     const contrasenaRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         error.classList.toggle("visible", mostrar);
     }
 
-    // validacion de campos
+    // validación de campos
     function validarNombre() {
         const esValido = campos.nombre.value.trim() !== "";
         mostrarError("nombre", !esValido);
