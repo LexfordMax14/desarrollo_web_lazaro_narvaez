@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     const STORAGE_KEY = "registrosActividades"; //llave de localStorage
+    const filas_por_pagina = 10;
     const contenedor = document.getElementById("contenedor-listado"); //donde insertar la tabla o mensaje de no registros
     const filtroCargo = document.getElementById("filtro-cargo");
     const ordenListado = document.getElementById("orden-listado");
+    let paginaActual = 1;
 
     if (!contenedor || !filtroCargo || !ordenListado) {
         return;
@@ -30,6 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const totalPaginas = Math.ceil(registrosFiltrados.length / filas_por_pagina);
+        const inicio = (paginaActual - 1) * filas_por_pagina;
+        const registrosPagina = registrosFiltrados.slice(inicio, inicio + filas_por_pagina);
+
         //crear tabla
         const tabla = document.createElement("table");
         const encabezado = document.createElement("thead");
@@ -50,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tabla.appendChild(encabezado);
 
         //insertar datos de cada registro en la tabla
-        registrosFiltrados.forEach((registro) => {
+        registrosPagina.forEach((registro) => {
             const fila = document.createElement("tr");
             const datosContacto = `${registro.telefono} | ${registro.correo}`;
             const valores = [
@@ -73,6 +79,35 @@ document.addEventListener("DOMContentLoaded", () => {
         //insertar cuerpo en la tabla y luego la tabla en el contenedor
         tabla.appendChild(cuerpo);
         contenedor.appendChild(tabla);
+
+        const paginacion = document.createElement("div");
+        paginacion.className = "paginacion-listado";
+
+        const izquierda = document.createElement("button");
+        izquierda.type = "button";
+        izquierda.textContent = "<";
+        izquierda.disabled = paginaActual === 1;
+        izquierda.addEventListener("click", () => {
+            paginaActual -= 1;
+            actualizarListado();
+        });
+
+        const pagina = document.createElement("span");
+        pagina.textContent = `Pagina ${paginaActual} de ${totalPaginas}`;
+
+        const derecha = document.createElement("button");
+        derecha.type = "button";
+        derecha.textContent = ">";
+        derecha.disabled = paginaActual === totalPaginas;
+        derecha.addEventListener("click", () => {
+            paginaActual += 1;
+            actualizarListado();
+        });
+
+        paginacion.appendChild(izquierda);
+        paginacion.appendChild(pagina);
+        paginacion.appendChild(derecha);
+        contenedor.appendChild(paginacion);
     }
 
     //funcion para obtener registros segun el filtro y orden
@@ -93,8 +128,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //asignar eventos para filtrar y ordenar el listado dinamicamente
-    filtroCargo.addEventListener("change", actualizarListado);
-    ordenListado.addEventListener("change", actualizarListado);
+    filtroCargo.addEventListener("change", () => {
+        paginaActual = 1;
+        actualizarListado();
+    });
+    ordenListado.addEventListener("change", () => {
+        paginaActual = 1;
+        actualizarListado();
+    });
 
     actualizarListado();
 });
