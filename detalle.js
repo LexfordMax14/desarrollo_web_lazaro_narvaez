@@ -9,7 +9,7 @@ if (!registro) {
 } else {
     const detalles = [
         { etiqueta: "Nombre", valor: registro.nombre },
-        { etiqueta: "Cargo", valor: registro.cargo },
+        { etiqueta: "Tipo de miembro", valor: registro.cargo },
         { etiqueta: "Correo", valor: registro.correo },
         { etiqueta: "Telefono", valor: registro.telefono },
         { etiqueta: "Categoria", valor: registro.categoria },

@@ -14,40 +14,41 @@
             <legend>Datos personales</legend>
 
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre">
             <br>
             <span class="error" id="error-nombre">Ingrese su nombre. Este campo no puede estar vacío.</span>
 
             <br><br>
 
-            <label for="rol">Cargo:</label>
-            <select id="rol" name="rol" required>
-                <option value="">Seleccione un cargo</option>
-                <option value="estudiante">Estudiante</option>
-                <option value="docente">Docente</option>
+            <label for="rol">Tipo de miembro:</label>
+            <select id="rol" name="rol">
+                <option value="">Seleccione un tipo de miembro</option>
+                <option value="pregrado">Estudiante de pregrado</option>
+                <option value="postgrado">Estudiante de postgrado</option>
                 <option value="funcionario">Funcionario</option>
+                <option value="academico">Académico</option>
             </select>
             <br>
-            <span class="error" id="error-rol">Seleccione un cargo válido.</span>
+            <span class="error" id="error-rol">Seleccione un tipo de miembro válido.</span>
 
             <br><br>
 
             <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required>
+            <input type="email" id="correo" name="correo">
             <br>
             <span class="error" id="error-correo">Ingrese un correo válido con formato nombre@dominio.cl o nombre@dominio.com, por ejemplo usuario@gmail.com o usuario@ug.uchile.cl.</span>
 
             <br><br>
 
             <label for="telefono">Número telefónico:</label>
-            <input type="tel" id="telefono" name="telefono" required>
+            <input type="tel" id="telefono" name="telefono">
             <br>
             <span class="error" id="error-telefono">Ingrese un número telefónico con formato 9XXXXXXXX.</span>
 
             <br><br>
 
             <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+            <input type="password" id="contrasena" name="contrasena">
             <br>
             <span class="error" id="error-contrasena">Ingrese una contraseña de al menos 6 caracteres, con letras y números. Los símbolos son opcionales.</span>
         </fieldset>
@@ -58,7 +59,7 @@
             <legend>Actividad</legend>
 
             <label for="actividad_nombre">Nombre de la actividad:</label>
-            <input type="text" id="actividad_nombre" name="actividad_nombre" required>
+            <input type="text" id="actividad_nombre" name="actividad_nombre">
             <br>
             <span class="error" id="error-actividad_nombre">Ingrese el nombre de la actividad. Este campo no puede estar vacío.</span>
 
@@ -66,14 +67,14 @@
 
             <label for="descripcion">Descripción:</label>
             <br>
-            <textarea id="descripcion" name="descripcion" rows="4" cols="40" required></textarea>
+            <textarea id="descripcion" name="descripcion" rows="4" cols="40"></textarea>
             <br>
             <span class="error" id="error-descripcion">Ingrese una descripción. Este campo no puede estar vacío.</span>
 
             <br><br>
 
             <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria" required>
+            <select id="categoria" name="categoria">
                 <option value="">Seleccione una categoría</option>
                 <option value="deporte">Deporte</option>
                 <option value="cultura">Cultura</option>
@@ -114,14 +115,14 @@
             <br><br>
 
             <label for="hora_inicio">Hora de inicio:</label>
-            <input type="time" id="hora_inicio" name="hora_inicio" required>
+            <input type="time" id="hora_inicio" name="hora_inicio">
             <br>
             <span class="error" id="error-hora_inicio">Ingrese una hora de inicio.</span>
 
             <br><br>
 
             <label for="hora_fin">Hora de fin:</label>
-            <input type="time" id="hora_fin" name="hora_fin" required>
+            <input type="time" id="hora_fin" name="hora_fin">
             <br>
             <span class="error" id="error-hora_fin">Ingrese una hora de fin.</span>
 

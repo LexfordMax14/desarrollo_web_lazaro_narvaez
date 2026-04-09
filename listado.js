@@ -27,7 +27,7 @@ function renderizarTabla(registrosFiltrados) {
     const tabla = document.createElement("table");
     const encabezado = document.createElement("thead");
     const filaEncabezado = document.createElement("tr");
-    const columnas = ["Categoria", "Nombre", "Cargo", "Datos de contacto", "Detalle"];
+    const columnas = ["Categoria", "Nombre", "Tipo de miembro", "Datos de contacto", "Detalle"];
     const cuerpo = document.createElement("tbody");
 
     //primera fila con encabezados
