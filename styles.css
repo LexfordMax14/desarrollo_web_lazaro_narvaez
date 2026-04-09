@@ -135,3 +135,18 @@ th {
 .paginacion-listado button {
     padding: 4px 10px;
 }
+
+.detalle-lista {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px 16px;
+    margin: 0;
+}
+
+.detalle-lista dt {
+    font-weight: 700;
+}
+
+.detalle-lista dd {
+    margin: 0;
+}
