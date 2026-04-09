@@ -47,8 +47,8 @@ Nota: en `archivoNombre` solo se guarda el nombre del archivo seleccionado, no e
 - Mensajes de error por campo.
 - Almacenamiento de datos en `localStorage`.
 - Listado dinámico en tabla.
-- Filtro por cargo.
-- Orden por nombre o categoría.
+- Filtro por tipo de miembro.
+- Orden por nombre, correo o categoría.
 - Paginación simple.
 - Vista de detalle por registro.
 - Vista de estadísticas con imágenes estáticas.
@@ -76,6 +76,14 @@ Nota: en `archivoNombre` solo se guarda el nombre del archivo seleccionado, no e
 - JavaScript
 - `localStorage`
 
+## Decisiones para la corrección
+
+- Las validaciones del formulario se realizan en `validaciones.js`. Se quitaron los atributos `required` para que la validación dependa de JavaScript.
+- El detalle de cada registro se consulta usando el índice enviado en la URL (`detalle.html?indice=...`) y no mediante un identificador adicional.
+- En el campo de archivo solo se guarda `archivoNombre`, es decir, el nombre del archivo seleccionado. No se almacena el contenido del archivo porque el proyecto se resolvió como prototipo sin backend.
+- El orden por datos de contacto se implementa usando el correo electrónico.
+- La persistencia se resolvió con `localStorage` para poder navegar entre vistas y mostrar listados y detalles dentro del prototipo.
+
 ## Nota
 
-El archivo `styles.css` fue co-hecho con inteligencia artificial como apoyo para el diseño visual base del proyecto.
+El archivo `styles.css` y este `README.md` fueron co-hechos con inteligencia artificial como apoyo para el diseño visual y la documentación base del proyecto.
