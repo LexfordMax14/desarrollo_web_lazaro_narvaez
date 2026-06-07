@@ -3,24 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
+    <title>Estadísticas | Actividades DCC</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Estadísticas</h1>
-    
-    <section class="estadisticas-graficos">
-        <h2>Gráficos</h2>
-        <div class="grafico-container">
-            <img src="{{ url_for('static', filename='images/graficos_por_actividad.png') }}" alt="Grafico por actividad" width="500">
-        </div>
-        <br><br>
-        <div class="grafico-container">
-            <img src="{{ url_for('static', filename='images/graficos_total_actividades.png') }}" alt="Grafico total de actividades" width="500">
-        </div>
-    </section>
-    <br><br>
 
-    <a href="{{ url_for('index') }}">Volver a Inicio</a>
+    <div class="stats-container">
+        <figure class="grafico-figure">
+            <div id="container-miembros" class="grafico-container"></div>
+            <figcaption class="grafico-descripcion">
+                Cantidad de miembros registrados por día.
+            </figcaption>
+        </figure>
+
+        <figure class="grafico-figure">
+            <div id="container-tipos" class="grafico-container"></div>
+            <figcaption class="grafico-descripcion">
+                Total de actividades extraprogramáticas por tipo.
+            </figcaption>
+        </figure>
+
+        <figure class="grafico-figure">
+            <div id="container-comunas" class="grafico-container"></div>
+            <figcaption class="grafico-descripcion">
+                Total de actividades registradas por comuna.
+            </figcaption>
+        </figure>
+    </div>
+
+    <p><a href="{{ url_for('index') }}">Volver a la portada</a></p>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ url_for('static', filename='js/estadisticas.js') }}"></script>
 </body>
 </html>
