@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, jsonify, render_template, request
 from markupsafe import escape
+from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
 from db.db import SessionLocal
@@ -249,6 +250,68 @@ def detalle(miembro_id=None):
 @app.route("/estadisticas", methods=["GET"])
 def estadisticas():
     return render_template("estadisticas.html")
+
+
+@app.route("/api/estadisticas/miembros-por-dia", methods=["GET"])
+def api_estadisticas_miembros_por_dia():
+    session = SessionLocal()
+    try:
+        filas = (
+            session.query(
+                func.date(Miembro.fecha_registro).label("dia"),
+                func.count(Miembro.id).label("total"),
+            )
+            .group_by("dia")
+            .order_by("dia")
+            .all()
+        )
+        data = [
+            {"date": fila.dia.strftime("%Y-%m-%d"), "count": fila.total}
+            for fila in filas
+        ]
+        return jsonify(data)
+    finally:
+        session.close()
+
+
+@app.route("/api/estadisticas/actividades-por-tipo", methods=["GET"])
+def api_estadisticas_actividades_por_tipo():
+    session = SessionLocal()
+    try:
+        filas = (
+            session.query(
+                Actividad.tipo.label("tipo"),
+                func.count(Actividad.id).label("total"),
+            )
+            .group_by(Actividad.tipo)
+            .order_by(func.count(Actividad.id).desc())
+            .all()
+        )
+        data = [{"tipo": fila.tipo, "total": fila.total} for fila in filas]
+        return jsonify(data)
+    finally:
+        session.close()
+
+
+@app.route("/api/estadisticas/actividades-por-comuna", methods=["GET"])
+def api_estadisticas_actividades_por_comuna():
+    session = SessionLocal()
+    try:
+        filas = (
+            session.query(
+                Comuna.nombre.label("comuna"),
+                func.count(Actividad.id).label("total"),
+            )
+            .join(Miembro, Miembro.comuna_id == Comuna.id)
+            .join(Actividad, Actividad.miembro_id == Miembro.id)
+            .group_by(Comuna.id)
+            .order_by(func.count(Actividad.id).desc())
+            .all()
+        )
+        data = [{"comuna": fila.comuna, "total": fila.total} for fila in filas]
+        return jsonify(data)
+    finally:
+        session.close()
 
 
 @app.route("/api/miembros", methods=["GET"])
