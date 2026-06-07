@@ -187,3 +187,29 @@ th {
     color: #c62828;
     margin-bottom: 6px;
 }
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.grafico-figure {
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 0;
+}
+
+.grafico-container {
+    width: 100%;
+    height: 360px;
+}
+
+.grafico-descripcion {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: #555555;
+}
