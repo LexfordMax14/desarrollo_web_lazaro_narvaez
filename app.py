@@ -7,7 +7,8 @@ from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
 from db.db import SessionLocal
-from db.models import Actividad, Comuna, Foto, Miembro
+from db.models import Actividad, Comentario, Comuna, Foto, Miembro
+from utils.comentario_validaciones import validar_comentario
 from utils.registro_validaciones import validar_registro
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -114,6 +115,15 @@ def foto_to_dict(foto):
         "nombre_archivo": foto.nombre_archivo,
         "ruta_archivo": f"static/uploads/{os.path.basename(foto.nombre_archivo)}",
         "actividad_id": foto.actividad_id,
+    }
+
+
+def comentario_to_dict(comentario):
+    return {
+        "id": comentario.id,
+        "nombre": comentario.nombre,
+        "texto": comentario.texto,
+        "fecha": comentario.fecha.isoformat() if comentario.fecha else None,
     }
 
 
@@ -368,6 +378,65 @@ def api_miembro_detalle(miembro_id):
         )
 
         return jsonify({"success": True, "data": miembro_data})
+    finally:
+        session.close()
+
+
+@app.route("/api/actividad/<int:actividad_id>/comentarios", methods=["GET"])
+def api_comentarios_listar(actividad_id):
+    """Lista los comentarios de una actividad, del mas reciente al mas antiguo."""
+    session = SessionLocal()
+    try:
+        actividad = session.query(Actividad).filter_by(id=actividad_id).first()
+        if not actividad:
+            return jsonify({"success": False, "error": "Actividad no encontrada"}), 404
+
+        comentarios = (
+            session.query(Comentario)
+            .filter_by(actividad_id=actividad_id)
+            .order_by(Comentario.fecha.desc())
+            .all()
+        )
+        return jsonify(
+            {
+                "success": True,
+                "data": [comentario_to_dict(c) for c in comentarios],
+            }
+        )
+    finally:
+        session.close()
+
+
+@app.route("/api/actividad/<int:actividad_id>/comentarios", methods=["POST"])
+def api_comentarios_agregar(actividad_id):
+    """Valida en el servidor e inserta un nuevo comentario para la actividad."""
+    datos = request.get_json(silent=True) or {}
+    nombre = (datos.get("nombre") or "").strip()
+    texto = (datos.get("texto") or "").strip()
+
+    errores = validar_comentario(nombre, texto)
+
+    session = SessionLocal()
+    try:
+        actividad = session.query(Actividad).filter_by(id=actividad_id).first()
+        if not actividad:
+            return jsonify({"success": False, "errores": ["Actividad no encontrada"]}), 404
+
+        if errores:
+            return jsonify({"success": False, "errores": errores}), 400
+
+        comentario = Comentario(
+            nombre=nombre,
+            texto=texto,
+            fecha=datetime.now(UTC),
+            actividad_id=actividad_id,
+        )
+        session.add(comentario)
+        session.commit()
+        return jsonify({"success": True, "data": comentario_to_dict(comentario)}), 201
+    except Exception as e:
+        session.rollback()
+        return jsonify({"success": False, "errores": [f"Error al guardar: {str(e)}"]}), 500
     finally:
         session.close()
 
