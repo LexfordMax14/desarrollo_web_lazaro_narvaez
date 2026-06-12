@@ -213,3 +213,41 @@ th {
     font-size: 0.95rem;
     color: #555555;
 }
+
+.actividad {
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.lista-comentarios {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+}
+
+.comentario {
+    border-top: 1px solid #e0e0e0;
+    padding: 10px 0;
+}
+
+.comentario p {
+    margin: 4px 0;
+}
+
+.comentario-cabecera {
+    color: #1f3c88;
+}
+
+.form-comentario label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.errores-comentario ul {
+    margin: 0 0 8px 0;
+    padding-left: 20px;
+    color: #c62828;
+}
