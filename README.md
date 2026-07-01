@@ -1,99 +1,86 @@
-# Tarea 3
+# Tarea 4 — CC5002
 
-Aplicación web desarrollada con Flask y MySQL para registrar miembros y sus actividades extraprogramáticas. Esta entrega amplía la Tarea 2 agregando **estadísticas con gráficos** y **comentarios a las actividades**.
+Migración completa a **Spring Boot 3.5.0** (Java 17+) + JPA/Hibernate + MySQL.  
+Agrega dos nuevas funcionalidades sobre la base de las tareas anteriores.
 
-## Descripción
+## Nuevas funcionalidades (Tarea 4)
 
-Sobre la base de la Tarea 2 (registro de miembros, actividades y fotos, listado y detalle), en la Tarea 3 se incorporan dos funcionalidades nuevas:
+### Buscador de actividades (`/buscador.html`)
+- Campo de texto único; al escribir ≥ 3 caracteres dispara búsqueda automática (debounce 300 ms) con `fetch`.
+- Busca en nombre de actividad, descripción y nombre de la comuna.
+- Muestra mensaje si no hay resultados.
+- Columnas: nombre del miembro, día, tipo, comuna, nombre y descripción.
+- Texto coincidente resaltado con `<mark>` (escape XSS-safe previo).
 
-1. **Estadísticas** con tres gráficos generados en el cliente.
-2. **Comentarios** a las actividades: agregar y listar de forma asíncrona.
+### Sistema de notas (`/buscador.html`)
+- Cada resultado muestra la nota promedio (`-` si sin evaluar) y un botón **Evaluar**.
+- Al hacer clic se abre un `<dialog>` nativo con `<select>` 1–7.
+- Validación doble: cliente (JS) y servidor (Spring Boot).
+- `POST /api/actividad/{id}/notas` guarda la nota, recalcula el promedio y actualiza la celda sin recargar la página.
 
-## Funcionalidades nuevas (Tarea 3)
+## Tecnologías
 
-### Estadísticas
+| Capa | Tecnología |
+|------|-----------|
+| Backend | Spring Boot 3.5.0, Java 22, JPA/Hibernate |
+| Base de datos | MySQL (`tarea2`), `ddl-auto=none` |
+| Frontend | HTML5 estático + JavaScript (`fetch`) |
+| Estilos | CSS3 propio |
 
-Tres gráficos dibujados en el navegador con **Highcharts**, que obtienen los datos vía `fetch` a endpoints de Flask:
+## Decisiones técnicas
 
-- **Gráfico de líneas:** cantidad de miembros registrados por día.
-- **Gráfico de torta:** total de actividades por tipo.
-- **Gráfico de barras (columnas):** total de actividades por comuna.
+- **HTML estático** en `src/main/resources/static/`: no se usa Thymeleaf; todo el renderizado es del lado del cliente con `fetch`.
+- **`<dialog>` nativo HTML5** para el modal de evaluación, sin dependencias externas.
+- **Highlighting XSS-safe**: se escapan caracteres HTML antes de insertar `<mark>`.
+- **`ddl-auto=none`**: la app usa la BD existente sin modificarla.
+- **`@JsonIgnore`** en back-references de entidades para evitar recursión circular en la serialización JSON.
+- Registro de miembros vía `fetch` con `FormData` (multipart); subida de fotos incluida.
+- Las comunas del formulario de registro se cargan asíncronamente desde `GET /api/comunas`.
+- Fotos de actividades guardadas en `static/uploads/` y servidas por un `ResourceHandler` personalizado.
 
-La página incluye un enlace para volver a la portada.
-
-### Comentarios
-
-En la vista de detalle, cada actividad muestra:
-
-- Un **listado** de sus comentarios (fecha, nombre del comentarista y texto), cargado de forma asíncrona.
-- Un **formulario** para agregar un nuevo comentario, con nombre (obligatorio, 3 a 80 caracteres) y texto (obligatorio, área de 4 filas y 50 columnas, mínimo 5 caracteres).
-
-La validación se realiza tanto en el cliente (antes de enviar) como en el servidor. Si el servidor rechaza el comentario, el formulario se mantiene visible mostrando los errores.
-
-## Endpoints nuevos
+## Endpoints principales
 
 | Método | URL | Descripción |
 |--------|-----|-------------|
-| GET | `/api/estadisticas/miembros-por-dia` | `[{date, count}]` para el gráfico de líneas |
-| GET | `/api/estadisticas/actividades-por-tipo` | `[{tipo, total}]` para el gráfico de torta |
-| GET | `/api/estadisticas/actividades-por-comuna` | `[{comuna, total}]` para el gráfico de barras |
-| GET | `/api/actividad/<id>/comentarios` | Lista los comentarios de una actividad |
-| POST | `/api/actividad/<id>/comentarios` | Valida e inserta un comentario nuevo |
+| GET | `/api/miembros` | Listado paginado de miembros |
+| GET | `/api/miembro/{id}` | Detalle con actividades y fotos |
+| POST | `/api/miembros` | Registro de nuevo miembro (multipart) |
+| GET | `/api/comunas` | Lista de comunas para el formulario |
+| GET | `/api/buscar?q=` | Búsqueda de actividades (mín. 3 chars) |
+| POST | `/api/actividad/{id}/notas` | Agrega nota; devuelve nuevo promedio |
+| GET | `/api/actividad/{id}/comentarios` | Lista comentarios de una actividad |
+| POST | `/api/actividad/{id}/comentarios` | Agrega comentario (JSON) |
+| GET | `/api/estadisticas/miembros-por-dia` | Datos para gráfico de líneas |
+| GET | `/api/estadisticas/actividades-por-tipo` | Datos para gráfico de torta |
+| GET | `/api/estadisticas/actividades-por-comuna` | Datos para gráfico de barras |
 
-## Requisitos
+## Cómo ejecutar
 
-- Python 3
-- MySQL
+1. Asegurarse de tener MySQL corriendo con la BD `tarea2`.
+2. Haber ejecutado `db/tabla-nota.sql` para crear la tabla `nota`.
+3. Ajustar usuario/contraseña en `src/main/resources/application.properties`.
+4. Desde la raíz del proyecto:
+   ```bash
+   mvn spring-boot:run
+   ```
+5. Abrir `http://localhost:8080`.
 
-## Dependencias
+---
 
-Instalar con:
+# Tarea 3 — CC5002
+
+Aplicación web desarrollada con Flask y MySQL. Agrega estadísticas con gráficos y comentarios a las actividades.
+
+## Funcionalidades (Tarea 3)
+
+- **Estadísticas**: tres gráficos (Highcharts) cargados con `fetch` — miembros por día, actividades por tipo y por comuna.
+- **Comentarios**: listado y formulario asíncrono en el detalle de cada actividad, con validación cliente y servidor.
+
+## Cómo ejecutar (Flask)
 
 ```bash
 pip install -r requeriments.txt
-```
-
-Highcharts se carga por CDN, no requiere instalación.
-
-## Base de datos
-
-La configuración está en [db.py](./db/db.py). Antes de ejecutar la app:
-
-1. Crear la base de datos `tarea2`.
-2. Ejecutar el script [tarea2.sql](./db/tarea2.sql) (estructura principal).
-3. Cargar regiones y comunas con [region-comuna.sql](./db/region-comuna.sql).
-4. Crear la tabla de comentarios con [tabla-comentario.sql](./db/tabla-comentario.sql).
-
-La interacción con la base de datos se realiza mediante SQLAlchemy.
-
-## Ejecución
-
-```bash
 python app.py
 ```
 
-La aplicación queda disponible en `http://127.0.0.1:5001`.
-
-## Estructura general
-
-- [app.py](./app.py): rutas Flask y endpoints de la API
-- [db](./db): conexión y modelos
-- [templates](./templates): vistas HTML
-- [static](./static): CSS, JavaScript, imágenes y uploads
-- [utils](./utils): validaciones de servidor
-
-## Decisiones de implementación
-
-- **Highcharts** (licencia gratuita para uso no comercial/educativo) para los gráficos, cargada por CDN. El enunciado la lista como opción válida.
-- Los gráficos se generan en el **cliente** con `fetch` (async/await) a endpoints que devuelven JSON; el servidor solo entrega datos ya agregados con `GROUP BY`/`COUNT` para que el conteo lo haga MySQL y no Python.
-- Cada gráfico se dibuja en su propia función con su propio `try/catch`, de modo que si un endpoint falla, los demás gráficos se siguen mostrando.
-- Los comentarios se agregan y listan con **llamadas asíncronas** (`fetch`). El POST envía JSON y el servidor responde con códigos HTTP (201, 400, 404) y mensajes de error.
-- **Validación doble** (cliente y servidor) con las mismas reglas para los comentarios.
-- **Entradas maliciosas:** al pintar los comentarios en el DOM se usa `textContent` (no `innerHTML`), evitando inyección de HTML/XSS; los templates usan el escape automático de Jinja.
-- En la vista de detalle, cada actividad se renderiza como un `<article>` independiente (en vez de dentro de una lista de definiciones) para mantener HTML5 válido al incluir el formulario.
-
-## Consideraciones
-
-- Construida con HTML5, CSS3, Python y Flask, usando SQLAlchemy para MySQL.
-- Para validación HTML/CSS con los validadores de W3C, revisar el HTML renderizado por Flask y no directamente los templates Jinja.
-- Parte de la redacción de este README y del CSS fue realizada con apoyo de IA.
+Disponible en `http://127.0.0.1:5001`.
