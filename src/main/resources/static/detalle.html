@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del miembro — CC5002</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/">Inicio</a> |
+    <a href="/registro.html">Registrar</a> |
+    <a href="/listado.html">Listado</a> |
+    <a href="/estadisticas.html">Estadísticas</a> |
+    <a href="/buscador.html">Buscador</a>
+</nav>
+
+<h1>Detalle del miembro</h1>
+
+<div id="contenedor-detalle">Cargando...</div>
+
+<script>
+    const miembro_id = new URLSearchParams(window.location.search).get('id');
+</script>
+<script src="/js/detalle.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio — CC5002</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/">Inicio</a> |
+    <a href="/registro.html">Registrar</a> |
+    <a href="/listado.html">Listado</a> |
+    <a href="/estadisticas.html">Estadísticas</a> |
+    <a href="/buscador.html">Buscador</a>
+</nav>
+
+<h1>Sistema de registro de miembros</h1>
+
+<div id="mensaje-inicio"></div>
+
+<section>
+    <p>Bienvenido al sistema de registro de miembros y actividades extraprogramáticas.</p>
+    <ul>
+        <li><a href="/registro.html">Registrar nuevo miembro</a></li>
+        <li><a href="/listado.html">Ver listado de miembros</a></li>
+        <li><a href="/estadisticas.html">Ver estadísticas</a></li>
+        <li><a href="/buscador.html">Buscar actividades</a></li>
+    </ul>
+</section>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get('mensaje');
+    if (msg) {
+        const div = document.getElementById('mensaje-inicio');
+        div.textContent = decodeURIComponent(msg);
+        div.style.cssText = 'background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:12px 16px;margin-bottom:16px;color:#2e7d32;';
+    }
+</script>
+</body>
+</html>

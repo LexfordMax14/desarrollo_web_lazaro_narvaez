@@ -1,3 +1,10 @@
-*.png
+target/
+*.class
+*.jar
+*.war
+*.log
+uploads/
+.idea/
+*.iml
+.vscode/
 *.pyc
-/tarea3

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador de actividades — CC5002</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px 10px; border: 1px solid #d9d9d9; text-align: left; }
+        th { background-color: #1f3c88; color: #fff; }
+        tr:nth-child(even) { background-color: #f0f4ff; }
+        mark { background-color: #fff176; padding: 0 2px; border-radius: 2px; }
+        .celda-nota { text-align: center; font-weight: bold; }
+        dialog { border-radius: 8px; border: 1px solid #bdbdbd; padding: 24px; min-width: 280px; }
+        dialog h2 { margin-top: 0; }
+        #error-nota { color: #c62828; display: none; margin-top: 6px; }
+        .acciones-nota { display: flex; gap: 8px; margin-top: 12px; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Inicio</a> |
+    <a href="/registro.html">Registrar</a> |
+    <a href="/listado.html">Listado</a> |
+    <a href="/estadisticas.html">Estadísticas</a> |
+    <a href="/buscador.html">Buscador</a>
+</nav>
+
+<h1>Buscador de actividades</h1>
+
+<section>
+    <label for="campo-busqueda">Buscar actividad:</label><br>
+    <input type="text" id="campo-busqueda" placeholder="Ingrese al menos 3 caracteres..." style="width:100%;max-width:500px;">
+</section>
+
+<div id="resultados-busqueda"></div>
+
+<dialog id="dialogo-nota">
+    <h2>Evaluar actividad</h2>
+    <p id="dialogo-nombre-actividad"></p>
+    <label for="select-nota">Nota (1–7):</label>
+    <select id="select-nota">
+        <option value="">Seleccione una nota</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+    </select>
+    <div id="error-nota"></div>
+    <div class="acciones-nota">
+        <button type="button" id="btn-confirmar-nota">Confirmar</button>
+        <button type="button" id="btn-cancelar-nota" style="background-color:#757575;">Cancelar</button>
+    </div>
+</dialog>
+
+<script src="/js/buscador.js"></script>
+</body>
+</html>
