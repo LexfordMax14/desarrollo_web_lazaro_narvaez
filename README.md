@@ -1,3 +1,63 @@
+# Tarea 5 — CC5002
+
+Tres nuevas funcionalidades sobre el proyecto **Spring Boot 3.5.0** (Java 17+), incorporando **Spring Security** para el control de acceso.
+
+## Nuevas funcionalidades (Tarea 5)
+
+### 1. Administrador de fotos (`/admin-fotos`) — acceso restringido
+- Galería de las fotos **vigentes** (no eliminadas), ordenadas de la más reciente a la más antigua.
+- Cada tarjeta muestra la foto, la **fecha de registro**, la **comuna** y el **email** del miembro que informó la actividad.
+- Botón **"Marcar como eliminada"**: abre un modal que solicita el **motivo** (obligatorio, entre 5 y 200 caracteres, validado en cliente y servidor).
+- Al confirmar: se actualiza `foto.eliminada = 1` y se inserta un registro en la tabla `log` con el mensaje  
+  `eliminado foto {id-foto} por usuario admin, motivo: {motivo}`.
+- Acceso solo para el usuario **`cc5002`** / contraseña **`examen`**.
+
+### 2. Mensajes log (`/mensajes-log`) — acceso restringido
+- Despliega en una tabla todo el contenido de la tabla `log` (`id`, `fecha`, `mensaje`), de la más reciente a la más antigua.
+- Acceso para **`cc5002`** / `examen` y para **`auditor`** / `log-auditor`.
+
+### 3. Estadística de fotos (`/estadistica-fotos`) — acceso público
+- Gráfico de torta (Highcharts) con el total de **fotos vigentes** vs. **fotos eliminadas**.
+
+## Seguridad (Spring Security)
+
+- Autenticación mediante **HTTP Basic** (ventana de usuario/contraseña del navegador).
+- Usuarios en memoria (`InMemoryUserDetailsManager`):
+  - `cc5002` / `examen` → roles `ADMIN` y `AUDITOR`.
+  - `auditor` / `log-auditor` → rol `AUDITOR`.
+- Reglas de autorización (`SecurityConfig`):
+  - `/admin-fotos` y `/api/admin-fotos/**` → rol `ADMIN`.
+  - `/mensajes-log` y `/api/mensajes-log/**` → rol `AUDITOR`.
+  - Todo lo demás (incluido `/estadistica-fotos`) → público.
+- CSRF desactivado para permitir las peticiones AJAX (`POST`) de la galería.
+
+## Endpoints nuevos (Tarea 5)
+
+| Método | URL | Acceso | Descripción |
+|--------|-----|--------|-------------|
+| GET | `/admin-fotos` | ADMIN | Página de la galería de administración |
+| GET | `/api/admin-fotos/lista` | ADMIN | Fotos vigentes con datos del miembro |
+| POST | `/api/admin-fotos/eliminar` | ADMIN | Marca `eliminada` y registra en `log` |
+| GET | `/mensajes-log` | AUDITOR | Página con la tabla de log |
+| GET | `/api/mensajes-log/lista` | AUDITOR | Contenido de la tabla `log` |
+| GET | `/estadistica-fotos` | Público | Página con el gráfico de fotos |
+| GET | `/api/estadistica-fotos/datos` | Público | Total de fotos vigentes y eliminadas |
+
+## Puesta en marcha (Tarea 5)
+
+1. Aplicar las modificaciones de base de datos incluidas en `modificaciones-base-datos.sql`
+   (agrega la columna `eliminada` a `foto` y crea la tabla `log`):
+   ```bash
+   mysql -u root -p tarea2 < modificaciones-base-datos.sql
+   ```
+2. Ejecutar la aplicación con `mvn spring-boot:run` y abrir `http://localhost:8080`.
+
+> **Nota para la corrección:** las funciones nuevas se agregaron sobre el proyecto Spring Boot de la Tarea 4.
+> La galería usa la ruta de la foto (`ruta_archivo`) para mostrar la imagen desde `static/uploads/`.
+> El gráfico de la estadística usa Highcharts (biblioteca externa por CDN).
+
+---
+
 # Tarea 4 — CC5002
 
 Migración completa a **Spring Boot 3.5.0** (Java 17+) + JPA/Hibernate + MySQL.  
