@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de fotos — CC5002</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/tarea5.css">
+</head>
+<body>
+<nav>
+    <a href="/">Inicio</a> |
+    <a href="/admin-fotos">Administrar fotos</a> |
+    <a href="/mensajes-log">Mensajes log</a> |
+    <a href="/estadistica-fotos">Estadística fotos</a>
+</nav>
+
+<h1>Administrador de fotos</h1>
+
+<p id="mensaje-estado"></p>
+
+<section id="galeria" class="galeria"></section>
+
+<div id="modal-motivo" class="modal-fondo" hidden>
+    <div class="modal-caja" role="dialog" aria-labelledby="modal-titulo" aria-modal="true">
+        <h2 id="modal-titulo">Eliminar foto</h2>
+        <p>Indique el motivo de la eliminación (entre 5 y 200 caracteres):</p>
+        <label for="motivo-texto">Motivo</label>
+        <textarea id="motivo-texto" rows="4" minlength="5" maxlength="200"></textarea>
+        <p id="motivo-error" class="error-texto"></p>
+        <div class="modal-botones">
+            <button type="button" id="btn-cancelar">Cancelar</button>
+            <button type="button" id="btn-confirmar">Confirmar eliminación</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin-fotos.js"></script>
+</body>
+</html>
