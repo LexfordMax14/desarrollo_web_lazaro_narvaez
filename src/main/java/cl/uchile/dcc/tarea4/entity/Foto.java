@@ -12,6 +12,7 @@ public class Foto {
 
     private String rutaArchivo;
     private String nombreArchivo;
+    private Boolean eliminada = false;
 
     @JsonIgnore
     @ManyToOne
@@ -22,8 +23,10 @@ public class Foto {
     public String getRutaArchivo() { return rutaArchivo; }
     public String getNombreArchivo() { return nombreArchivo; }
     public Actividad getActividad() { return actividad; }
+    public Boolean getEliminada() { return eliminada; }
 
     public void setRutaArchivo(String rutaArchivo) { this.rutaArchivo = rutaArchivo; }
     public void setNombreArchivo(String nombreArchivo) { this.nombreArchivo = nombreArchivo; }
     public void setActividad(Actividad actividad) { this.actividad = actividad; }
+    public void setEliminada(Boolean eliminada) { this.eliminada = eliminada; }
 }
